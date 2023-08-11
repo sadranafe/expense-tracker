@@ -11,6 +11,11 @@ const ExpenseTracker = () => {
     const [transAction_, setTransAction_] = useState(DUMMY_TRANSACTION)
     const [filteredView, setFilteredView] = useState("view all")
 
+    // * this section is related to dynamic numbers for prices : 
+    const [price, setPrice] = useState(0);
+    const [incomes, setIncomes] = useState(0);
+    const [expenses, setExpenses] = useState(0);
+
     const modalHandler = ev => {
         ev.preventDefault();
         setModalIsOpen(!modalIsOpen);
@@ -18,7 +23,10 @@ const ExpenseTracker = () => {
 
     const filteredTransactions = transAction_.filter(transaction => {
         if (filteredView === "view all") {
-            return transaction
+            return (
+                transaction,
+                deleteBtnHandler
+            )
         } else {
             return transaction.action === filteredView
         }
@@ -29,14 +37,52 @@ const ExpenseTracker = () => {
     }
 
     const transactionHandler = (ev) => {
+        if (ev.action === "withdraw") {
+            setPrice(prevState => {
+                return (prevState - ev.price)
+            });
+
+            setExpenses(prevState => {
+                return (prevState + ev.price)
+            })
+
+        } else {
+            setPrice(prevState => {
+                return (prevState + ev.price)
+            })
+
+            setIncomes(prevState => {
+                return (prevState + ev.price)
+            })
+        }
+
         setTransAction_(prevState => {
             return ([...prevState, ev])
         })
     }
 
     // ! very important part of the code. 👉👉 delete the transaction
-   
     const deleteBtnHandler = item => {
+        if (item.action === "withdraw") {
+            setPrice(prevState => {
+                return prevState + item.price
+            })
+
+            setExpenses(prevState => {
+                return prevState - item.price
+            })
+
+        } else {
+            setPrice(prevState => {
+                return prevState - item.price
+            })
+
+            setIncomes(prevState => {
+                return prevState - item.price
+            })
+
+        }
+
         const newTrans = filteredTransactions.filter(transaction => transaction !== item);
         setTransAction_(newTrans)
     }
@@ -106,7 +152,7 @@ const ExpenseTracker = () => {
                         filteredTransactions.length !== 0 ?
                             filteredTransactions.map((item, index) =>
                                 <div key={index}>
-                                    <Transaction title={item.title} price={item.price} action={item.action} onDelete = { () => deleteBtnHandler(item) } />
+                                    <Transaction title={item.title} price={item.price} action={item.action} onDelete={() => deleteBtnHandler(item)} />
                                 </div>
                             )
                             : <p className="py-2 mt-5 capitalize">no transaction found ❗</p>
