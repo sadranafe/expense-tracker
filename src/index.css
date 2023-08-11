@@ -5,3 +5,12 @@
 * {
     font-family: 'Josefin Sans';
 }
+
+::-webkit-scrollbar{
+    appearance: none;
+    display: none;
+}
+
+input::-webkit-inner-spin-button , input::-webkit-outer-spin-button{
+    appearance: none;
+}
