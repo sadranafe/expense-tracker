@@ -5,25 +5,7 @@ import FilteredTransaction from "./filteredTransaction";
 
 const ExpenseTracker = () => {
 
-    const DUMMY_TRANSACTION = [
-        {
-            title: "book",
-            price: 20,
-            action: "withdraw"
-        }, {
-            title: "trasnfer money",
-            price: 500,
-            action: "withdraw"
-        }, {
-            title: "add to card ",
-            price: 1200,
-            action: "deposit"
-        }, {
-            title: "add to card",
-            price: 5000,
-            action: "deposit"
-        }
-    ]
+    const DUMMY_TRANSACTION = []
 
     const [modalIsOpen , setModalIsOpen] = useState(false)
     const [transAction_ , setTransAction_] = useState(DUMMY_TRANSACTION)
