@@ -7,19 +7,19 @@ const ExpenseTracker = () => {
 
     const DUMMY_TRANSACTION = []
 
-    const [modalIsOpen , setModalIsOpen] = useState(false)
-    const [transAction_ , setTransAction_] = useState(DUMMY_TRANSACTION)
-    const [filteredView , setFilteredView] = useState("view all")
-    
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [transAction_, setTransAction_] = useState(DUMMY_TRANSACTION)
+    const [filteredView, setFilteredView] = useState("view all")
+
     const modalHandler = ev => {
         ev.preventDefault();
         setModalIsOpen(!modalIsOpen);
     }
 
-    const filteredTransactions = transAction_.filter( transaction => {
-        if(filteredView === "view all"){
+    const filteredTransactions = transAction_.filter(transaction => {
+        if (filteredView === "view all") {
             return transaction
-        } else{
+        } else {
             return transaction.action === filteredView
         }
     })
@@ -30,8 +30,15 @@ const ExpenseTracker = () => {
 
     const transactionHandler = (ev) => {
         setTransAction_(prevState => {
-            return ([...prevState , ev])
-        })   
+            return ([...prevState, ev])
+        })
+    }
+
+    // ! very important part of the code. 👉👉 delete the transaction
+   
+    const deleteBtnHandler = item => {
+        const newTrans = filteredTransactions.filter(transaction => transaction !== item);
+        setTransAction_(newTrans)
     }
 
     return (
@@ -74,12 +81,12 @@ const ExpenseTracker = () => {
 
                 <div className="transaction_wrapper w-full text-center flex flex-wrap justify-center items-center">
                     <div className="w-full mb-5">
-                        <button onClick = {modalHandler} className="bg-yellow-400 p-2 rounded-lg hover:bg-yellow-500 transition-all">
+                        <button onClick={modalHandler} className="bg-yellow-400 p-2 rounded-lg hover:bg-yellow-500 transition-all">
                             Add new
                             <i className="bx bx-plus"></i>
                         </button>
 
-                        <TransactionModal onModalHandler = {modalHandler} onModalIsOpen = {modalIsOpen} onTransactionHandler = {transactionHandler} />
+                        <TransactionModal onModalHandler={modalHandler} onModalIsOpen={modalIsOpen} onTransactionHandler={transactionHandler} />
                     </div>
 
                     <div className="w-full flex-wrap flex justify-center items-center">
@@ -90,19 +97,19 @@ const ExpenseTracker = () => {
                             </p>
                         </div>
 
-                        <FilteredTransaction selected = {filteredView} onfilteredHandler = {filteredTransactionHandler}/>
+                        <FilteredTransaction selected={filteredView} onfilteredHandler={filteredTransactionHandler} />
                     </div>
                 </div>
 
                 <div className='w-6/12 h-60 overflow-scroll'>
                     {
                         filteredTransactions.length !== 0 ?
-                        filteredTransactions.map((item, index) =>
-                            <div key = {index}>
-                                <Transaction title = {item.title} price = {item.price} action = {item.action}/>
-                            </div>
-                        )
-                        : <p className = "py-2 mt-5 capitalize">no transaction found ❗</p>
+                            filteredTransactions.map((item, index) =>
+                                <div key={index}>
+                                    <Transaction title={item.title} price={item.price} action={item.action} onDelete = { () => deleteBtnHandler(item) } />
+                                </div>
+                            )
+                            : <p className="py-2 mt-5 capitalize">no transaction found ❗</p>
                     }
                 </div>
 
