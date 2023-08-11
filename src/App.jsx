@@ -1,9 +1,10 @@
 import "./index.css"
+import ExpenseTracker from "./components/expenseTracker/expenseTracker";
 
 const App = () => {
   return (
     <>
-      <div>Hello world</div>
+      <ExpenseTracker/>
     </>
   );
 };
