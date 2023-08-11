@@ -1,6 +1,22 @@
 import { useState } from "react";
+import Swal from "sweetalert2"
+import withReactContent from "sweetalert2-react-content"
 
-const TransactionModal = ({ onModalHandler, onModalIsOpen , onTransactionHandler }) => {
+const TransactionModal = ({ onModalHandler, onModalIsOpen, onTransactionHandler }) => {
+
+    const MySwal = withReactContent(Swal);
+    const Toast = MySwal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: toast => {
+            toast.addEventListener('mouseenter', MySwal.stopTimer)
+            toast.addEventListener('mouseleave', MySwal.resumeTimer)
+        }
+    })
+
 
     const [enteredTitle, setEneteredTitle] = useState('')
     const [enteredPrice, setEneteredPrice] = useState('')
@@ -37,6 +53,11 @@ const TransactionModal = ({ onModalHandler, onModalIsOpen , onTransactionHandler
     const formHandler = ev => {
         ev.preventDefault()
 
+        Toast.fire({
+            icon : "success",
+            title : "Added successfully"
+        })
+
         onTransactionHandler(transactionData)
         setEneteredTitle("")
         setEneteredPrice("")
@@ -60,20 +81,20 @@ const TransactionModal = ({ onModalHandler, onModalIsOpen , onTransactionHandler
                             <div className='w-full text-start mb-4'>
                                 <label htmlFor="title">title :</label>
                                 <div className="text-center">
-                                    <input type="text" autoComplete="off" value = {enteredTitle} onChange = {titleChangeHandler} className='px-2 p-1 outline-none border-b-2 border-b-sky-800' id='title' placeholder='title' />
+                                    <input type="text" autoComplete="off" value={enteredTitle} onChange={titleChangeHandler} className='px-2 p-1 outline-none border-b-2 border-b-sky-800' id='title' placeholder='title' />
                                 </div>
                             </div>
 
                             <div className='w-full text-start my-4'>
                                 <label htmlFor="price">price :</label>
                                 <div className="text-center">
-                                    <input type="number" autoComplete="off" value = {enteredPrice} onChange = {priceChangeHandler} className='px-2 p-1 outline-none border-b-2 border-b-sky-800' id='price' placeholder='price' />
+                                    <input type="number" autoComplete="off" value={enteredPrice} onChange={priceChangeHandler} className='px-2 p-1 outline-none border-b-2 border-b-sky-800' id='price' placeholder='price' />
                                 </div>
                             </div>
                         </div>
 
                         <div className='pt-5 mt-7'>
-                            <div onChange = {actionChangeHandler} className="flex flex-wrap justify-between">
+                            <div onChange={actionChangeHandler} className="flex flex-wrap justify-between">
                                 <p className="text-start w-full">Choose an action : </p>
 
                                 <div className="text-start my-2">
@@ -88,7 +109,7 @@ const TransactionModal = ({ onModalHandler, onModalIsOpen , onTransactionHandler
                             </div>
                         </div>
 
-                        <button type='submit' disabled = {!formIsValid} className='capitalize disabled:cursor-not-allowed disabled:bg-gray-500 bg-sky-950 hover:bg-sky-800 transition-all text-white px-2 p-1 rounded-lg mt-5'>submit</button>
+                        <button type='submit' disabled={!formIsValid} className='capitalize disabled:cursor-not-allowed disabled:bg-gray-500 bg-sky-950 hover:bg-sky-800 transition-all text-white px-2 p-1 rounded-lg mt-5'>submit</button>
                     </div>
                 </form>
             }
