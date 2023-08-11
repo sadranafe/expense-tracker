@@ -26,10 +26,24 @@ const ExpenseTracker = () => {
     ]
 
     const [modalIsOpen , setModalIsOpen] = useState(false)
+    const [transAction_ , setTransAction_] = useState(DUMMY_TRANSACTION)
+    const [filteredView , setFilteredView] = useState("view all")
     
     const modalHandler = ev => {
         ev.preventDefault();
         setModalIsOpen(!modalIsOpen);
+    }
+
+    const filteredTransactions = transAction_.filter( transaction => {
+        if(filteredView === "view all"){
+            return transaction
+        } else{
+            return transaction.action === filteredView
+        }
+    })
+
+    const filteredTransactionHandler = selected => {
+        setFilteredView(selected)
     }
 
     return (
@@ -88,13 +102,13 @@ const ExpenseTracker = () => {
                             </p>
                         </div>
 
-                        <FilteredTransaction/>
+                        <FilteredTransaction selected = {filteredView} onfilteredHandler = {filteredTransactionHandler}/>
                     </div>
                 </div>
 
                 <div className='w-6/12 h-60 overflow-scroll'>
                     {
-                        DUMMY_TRANSACTION.map((item, index) =>
+                        filteredTransactions.map((item, index) =>
                             <div key = {index}>
                                 <Transaction title = {item.title} price = {item.price} action = {item.action}/>
                             </div>
