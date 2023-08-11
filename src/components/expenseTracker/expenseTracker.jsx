@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState } from "react";
+import Transaction from "./transaction";
 
 const ExpenseTracker = () => {
 
@@ -82,20 +83,7 @@ const ExpenseTracker = () => {
                     {
                         DUMMY_TRANSACTION.map((item, index) =>
                             <div key = {index}>
-                                <div className = 'bg-neutral-100 flex flex-wrap justify-between items-center px-5 p-3 my-4 rounded-xl shadow-md shadow-gray-300'>
-                                    <div>
-                                        <p>{item.title}</p>
-                                    </div>
-
-
-                                    <div>
-                                        <p className = 'inline-block'>{item.price}</p>
-
-                                        <button className = 'inline-block ml-3 px-3 p-1 text-red-600'>
-                                            <i className = 'bx bx-trash text-lg'></i>
-                                        </button>
-                                    </div>
-                                </div>
+                                <Transaction title = {item.title} price = {item.price} action = {item.action}/>
                             </div>
                         )
                     }
