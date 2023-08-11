@@ -30,7 +30,7 @@ const TransactionModal = () => {
                     </div>
 
                     <div className='pt-5 mt-7'>
-                        <div onChange={actionChangeHandler} className="flex flex-wrap justify-between">
+                        <div className="flex flex-wrap justify-between">
                             <p className="text-start w-full">Choose an action : </p>
 
                             <div className="text-start my-2">
