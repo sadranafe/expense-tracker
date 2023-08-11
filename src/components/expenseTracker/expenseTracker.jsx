@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Transaction from "./transaction";
 import TransactionModal from "./transactionModal";
+import FilteredTransaction from "./filteredTransaction";
 
 const ExpenseTracker = () => {
 
@@ -86,6 +87,8 @@ const ExpenseTracker = () => {
                                 transactions
                             </p>
                         </div>
+
+                        <FilteredTransaction/>
                     </div>
                 </div>
 
