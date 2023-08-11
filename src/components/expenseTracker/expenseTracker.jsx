@@ -21,6 +21,33 @@ const ExpenseTracker = () => {
         setModalIsOpen(!modalIsOpen);
     }
 
+    // ! very important part of the code. 👉👉 delete the transaction
+    const deleteBtnHandler = item => {
+        if (item.action === "withdraw") {
+            setPrice(prevState => {
+                return prevState + item.price
+            })
+
+            setExpenses(prevState => {
+                return prevState - item.price
+            })
+
+        } else {
+            setPrice(prevState => {
+                return prevState - item.price
+            })
+
+            setIncomes(prevState => {
+                return prevState - item.price
+            })
+
+        }
+
+        const newTrans = filteredTransactions.filter(transaction => transaction !== item);
+        setTransAction_(newTrans)
+    }
+
+
     const filteredTransactions = transAction_.filter(transaction => {
         if (filteredView === "view all") {
             return (
@@ -61,31 +88,12 @@ const ExpenseTracker = () => {
         })
     }
 
-    // ! very important part of the code. 👉👉 delete the transaction
-    const deleteBtnHandler = item => {
-        if (item.action === "withdraw") {
-            setPrice(prevState => {
-                return prevState + item.price
-            })
+    const [showBalance, setShowBalance] = useState(false);
 
-            setExpenses(prevState => {
-                return prevState - item.price
-            })
-
-        } else {
-            setPrice(prevState => {
-                return prevState - item.price
-            })
-
-            setIncomes(prevState => {
-                return prevState - item.price
-            })
-
-        }
-
-        const newTrans = filteredTransactions.filter(transaction => transaction !== item);
-        setTransAction_(newTrans)
+    const balanceHandler = () => {
+        setShowBalance(!showBalance)
     }
+
 
     return (
         <>
@@ -93,10 +101,20 @@ const ExpenseTracker = () => {
 
                 <div className="w-4/12 relative text-white bg-sky-950 shadow-xl shadow-gray-400 rounded-xl p-3 mb-10 py-10 flex flex-wrap justify-center items-center">
                     <h2 className="uppercase w-full text-center">current balance</h2>
-                    <p className="mt-4 text-xl">$ 50,000</p>
+                    <p className="mt-4 text-xl">
+                        {
+                            showBalance ? `$  ${Number(price).toLocaleString()}` :
+                                <>
+                                    <i className="bx bxl-flickr"></i>
+                                    <i className="bx bxl-flickr"></i>
+                                    <i className="bx bxl-flickr"></i>
+                                </>
+                        }
 
-                    <button className="py-1 mt-2 px-3 absolute right-32 top-16">
-                        <i className="bx bx-hide text-xl"></i>
+                    </p>
+
+                    <button onClick={balanceHandler} className={price.toString().length >= 12 ? "py-1 mt-2 px-3 absolute right-24 top-16" : "py-1 mt-2 px-3 absolute right-32 top-16"}>
+                        <i className={showBalance ? "bx bx-show-alt text-xl" : "bx bx-hide text-xl"}></i>
                     </button>
 
                     <div className="w-full px-5 mt-5">
@@ -106,7 +124,7 @@ const ExpenseTracker = () => {
                                     <i className="bx bx-up-arrow-circle text-2xl"></i>
                                     <div className="ml-2">
                                         <p>incomes</p>
-                                        <p>$ 00.00</p>
+                                        <p>$ {Number(incomes).toLocaleString()}</p>
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +135,7 @@ const ExpenseTracker = () => {
                                     <i className="bx bx-down-arrow-circle text-2xl"></i>
                                     <div className="ml-2">
                                         <p>expenses</p>
-                                        <p>$ 00.00</p>
+                                        <p>$ {Number(expenses) === 0 ? Number(expenses).toLocaleString() : Number(-expenses).toLocaleString()}</p>
                                     </div>
                                 </div>
                             </div>
