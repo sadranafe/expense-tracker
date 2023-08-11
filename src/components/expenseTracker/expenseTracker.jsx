@@ -24,6 +24,13 @@ const ExpenseTracker = () => {
         }
     ]
 
+    const [modalIsOpen , setModalIsOpen] = useState(false)
+    
+    const modalHandler = ev => {
+        ev.preventDefault();
+        setModalIsOpen(!modalIsOpen);
+    }
+
     return (
         <>
             <div className="bg-neutral-200 select-none w-screen h-screen flex flex-wrap justify-center content-center items-center">
@@ -64,12 +71,12 @@ const ExpenseTracker = () => {
 
                 <div className="transaction_wrapper w-full text-center flex flex-wrap justify-center items-center">
                     <div className="w-full mb-5">
-                        <button className="bg-yellow-400 p-2 rounded-lg hover:bg-yellow-500 transition-all">
+                        <button onClick = {modalHandler} className="bg-yellow-400 p-2 rounded-lg hover:bg-yellow-500 transition-all">
                             Add new
                             <i className="bx bx-plus"></i>
                         </button>
 
-                        <TransactionModal/>
+                        <TransactionModal onModalHandler = {modalHandler} onModalIsOpen = {modalIsOpen}/>
                     </div>
 
                     <div className="w-full flex-wrap flex justify-center items-center">
