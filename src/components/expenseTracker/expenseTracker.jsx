@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Transaction from "./transaction";
+import TransactionModal from "./transactionModal";
 
 const ExpenseTracker = () => {
 
@@ -67,6 +68,8 @@ const ExpenseTracker = () => {
                             Add new
                             <i className="bx bx-plus"></i>
                         </button>
+
+                        <TransactionModal/>
                     </div>
 
                     <div className="w-full flex-wrap flex justify-center items-center">
