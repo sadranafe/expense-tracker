@@ -46,6 +46,12 @@ const ExpenseTracker = () => {
         setFilteredView(selected)
     }
 
+    const transactionHandler = (ev) => {
+        setTransAction_(prevState => {
+            return ([...prevState , ev])
+        })   
+    }
+
     return (
         <>
             <div className="bg-neutral-200 select-none w-screen h-screen flex flex-wrap justify-center content-center items-center">
@@ -91,7 +97,7 @@ const ExpenseTracker = () => {
                             <i className="bx bx-plus"></i>
                         </button>
 
-                        <TransactionModal onModalHandler = {modalHandler} onModalIsOpen = {modalIsOpen}/>
+                        <TransactionModal onModalHandler = {modalHandler} onModalIsOpen = {modalIsOpen} onTransactionHandler = {transactionHandler} />
                     </div>
 
                     <div className="w-full flex-wrap flex justify-center items-center">
@@ -108,11 +114,13 @@ const ExpenseTracker = () => {
 
                 <div className='w-6/12 h-60 overflow-scroll'>
                     {
+                        filteredTransactions.length !== 0 ?
                         filteredTransactions.map((item, index) =>
                             <div key = {index}>
                                 <Transaction title = {item.title} price = {item.price} action = {item.action}/>
                             </div>
                         )
+                        : <p className = "py-2 mt-5 capitalize">no transaction found ❗</p>
                     }
                 </div>
 
