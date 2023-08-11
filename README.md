@@ -28,7 +28,7 @@ this is a simple web App built with React for tracking your expenses. it provide
 ```
     npm run dev
 ```
-5. after run the last command in terminal, click on O and your browser will automatically open.
+5. after running the last command in terminal, click on O (alphabet) and your browser will automatically open.
 
 # Contributing
 if you have any suggestions , improvements or see any bugs, feel free to submit a pull request.
